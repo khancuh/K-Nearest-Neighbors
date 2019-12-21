@@ -1,0 +1,33 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import confusion_matrix
+
+
+data = pd.read_csv('C:\\Users\\Imran\\Desktop\\socialnetworkingdata.csv')
+data.head(9)
+
+real_x = data.iloc[:,[2,3]]
+real_y = data.iloc[:,4]
+
+real_x
+
+training_x,test_x,training_y,test_y = train_test_split(real_x,real_y,test_size = 0.25, random_state=0)
+
+s_c = StandardScaler()
+training_x = s_c.fit_transform(training_x)
+test_x = s_c.transform(test_x)
+
+cls = KNeighborsClassifier(n_neighbors = 1, metric='minkowski', p=2)
+cls.fit(training_x,training_y)
+
+y_pred = cls.predict(test_x)
+y_pred
+
+test_y
+
+c_m = confusion_matrix(test_y, y_pred)
+c_m
